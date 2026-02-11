@@ -1,117 +1,53 @@
-# Welcome to PearlThoughts Internship Program
+# Task-6: Professional Dockerized Strapi Environment
 
-We are thrilled to welcome you to the PearlThoughts team! This internship is designed to provide you with valuable hands-on experience, deepen your understanding of technology, and help you hone your skills in a collaborative, innovative environment.
+## 1. Project Overview
+This project focuses on containerizing a **Strapi CMS** application to ensure a consistent development and production environment. The architecture includes a **PostgreSQL** database for data persistence and an **Nginx** reverse proxy for secure traffic management and WebSocket handling.
 
-# Policies and Guidelines
 
-## Training and Attendance
 
-### Training Sessions
-- **Schedule**: Every weekday at 10:30 AM 
-- **Attendance**: MANDATORY - Missing sessions affects your evaluation
-- **Duration**: Full attention required during training hours
+---
 
-### Working Hours
-- **Availability**: 10 AM to 6 PM on all working days
-- **Active Participation**: Required in all team activities and discussions
+## 2. Technical Architecture
+* **Application Layer**: Strapi Headless CMS running on Node.js.
+* **Database Layer**: PostgreSQL 16 (Alpine) with persistent volume mapping to `strapi-db-data`.
+* **Proxy Layer**: Nginx serving as a reverse proxy on Port 80, configured to handle internal Port 1337 traffic.
 
-## Daily Requirements
+---
 
-### 📝 Pull Requests (PR)
-- **Deadline**: Must be raised by end of each day
-- **Content**: Include all work completed during the day
-- **Consequence**: No PR = Marked absent for that day
+## 3. Key Challenges & Technical Fixes
 
-### 📋 Status Updates
-- Post daily progress in your team channel
-- Use the [[../Templates/Daily-Status-Template|Daily Status Template]]
-- Be specific about completed tasks and blockers
+### A. Nginx WebSocket Resolution
+During deployment, a `404 Not Found` error was identified on the `/ws` (WebSocket) endpoint.
+* **Solution**: Updated the Nginx `default.conf` to include `Upgrade` and `Connection` headers to facilitate the HTTP/1.1 handshake required for WebSockets.
 
-## Task Management
 
-### Assigned Tasks
-- Tasks assigned during morning training sessions
-- **Timely Completion**: Critical for your evaluation
-- Document challenges and solutions
 
-### Task Tracking
-- Update task status regularly
-- Communicate blockers immediately
-- Seek help when needed
+### B. Professional Git Workflow
+* **Branching Strategy**: All development was performed on the feature branch `nithin-task-6-dockerized`.
+* **Conflict Management**: Resolved a complex **Merge Conflict** in the `README.md` using the Git Merge Editor to ensure local changes integrated with the organization's main history.
+* **History Syncing**: Utilized the `--allow-unrelated-histories` flag to successfully pull and push code across divergent commit histories.
 
-## Evaluation Process
+---
 
-### Weekly Evaluations
-- **When**: Every Friday
-- **Criteria**:
-  - Task completion and quality
-  - Collaboration and teamwork
-  - Learning progress
-  - Professional conduct
+## 4. Core Commands Used
 
-### Performance Metrics
-- Code quality and best practices
-- Meeting deadlines
-- Communication effectiveness
-- Problem-solving approach
+| Category | Command | Purpose |
+| :--- | :--- | :--- |
+| **Docker** | `docker-compose up -d` | Start services in detached mode |
+| **Docker** | `docker-compose down` | Stop and remove containers |
+| **Git** | `git init` | Initialize project repository |
+| **Git** | `git pull origin main` | Sync with organization repository |
+| **Git** | `git push origin [branch]` | Upload code for PR creation |
 
-## Communication Channels
+---
 
-### MS Teams Channels
+## 5. Project Structure
+```text
+TASK-6-DOCKERIZED/
+├── nginx/
+│   └── default.conf      # Nginx Proxy Configuration
+├── docker-compose.yml    # Container Orchestration
+├── .env                  # Environment Variables
+└── README.md             # Documentation
 
-| Channel | Purpose |
-|---------|------|
-| **Internship** | Key updates and announcements |
-| **Support** | Cloud resources and technical guidance |
-| **DevOps** | Deployment assistance and DevOps queries |
-| **Team [Name]** | Your team's collaboration space |
-
-### Email Communication
-- **Support Queries**: hr@pearlthoughts.com
-- **Topics**: LOA requests, Teams access, evaluation results
-- **Important**: Avoid raising these in training sessions or Teams channels
-
-## Termination Policy
-
-### ⚠️ Automatic Termination Triggers
-- Missing 3 consecutive training sessions
-- Failing to submit PR for 3 consecutive days
-- No prior notice will be given
-
-## Professional Conduct
-
-### Expected Behavior
-1. **Professionalism**: Maintain professional demeanor in all interactions
-2. **Respect**: Treat all team members with respect
-3. **Punctuality**: Be on time for all meetings and deadlines
-4. **Integrity**: Be honest about your progress and challenges
-5. **Collaboration**: Actively help and learn from peers
-
-## Support Resources
-
-### Getting Help
-- Technical issues: Post in Support channel
-- DevOps help: Use DevOps channel
-- Administrative queries: Email hr@pearlthoughts.com
-- Task clarification: Ask your mentor during training
-
-## Best Practices
-
-### Code Quality
-- Follow project coding standards
-- Write clean, documented code
-- Test your changes before PR
-- Review peers' code constructively
-
-### Documentation
-- Document your learning journey
-- Share helpful resources with team
-- Maintain clear commit messages
-- Update project documentation
-
-## Your Journey Starts Here
-
-We are excited to have you on board and look forward to seeing you grow and succeed during your time with us. 
-
-**Welcome to PearlThoughts—let's embark on this journey together!**
-# The-Config-Crew
+Prepared by: Nithin Settibathula
