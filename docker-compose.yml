@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # 1. Database Container
+  strapi-db:
+    image: postgres:15
+    container_name: strapi-db
+    networks:
+      - strapi-net
+    environment:
+      POSTGRES_USER: nithin_user
+      POSTGRES_PASSWORD: nithin_password
+      POSTGRES_DB: strapi_db
+    volumes:
+      - strapi-db-data:/var/lib/postgresql/data
+
+  # 2. Strapi CMS Container
+  strapi:
+    image: node:20-alpine
+    container_name: strapi
+    working_dir: /opt/app
+    
+    command: sh -c "npm install && npm run develop"
+    stdin_open: true
+    tty: true
+    networks:
+      - strapi-net
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_NAME: strapi_db
+      DATABASE_HOST: strapi-db
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: nithin_user
+      DATABASE_PASSWORD: nithin_password
+      NODE_ENV: development
+    volumes:
+      - ./:/opt/app
+    depends_on:
+      - strapi-db
+
+  # 3. Nginx Reverse Proxy
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - strapi-net
+    depends_on:
+      - strapi
+
+networks:
+  strapi-net:
+    driver: bridge
+
+volumes:
+  strapi-db-data:
